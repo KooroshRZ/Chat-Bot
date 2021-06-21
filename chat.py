@@ -3,11 +3,11 @@ from typing import ChainMap
 import requests
 import time
 
-TOKEN = "TOKEN"
+TOKEN = ""
 URL = "https://api.telegram.org/bot{}/".format(TOKEN)
 
 init = False
-first_side  = 0
+first_side  = 89546715
 second_side = 0
 
 def get_url(url):
@@ -67,14 +67,14 @@ def echo_all(updates):
     for update in updates['result']:
 
         sender = update['message']['from']
-        name = f"{sender['first_name']} ({sender['username']})"
+        name = f"{sender['first_name']} {sender['first_name']} ({sender['username']}) : {chat_id}"
         chat_id = sender['id']
 
         if not init:
 
             if first_side == 0:
                 first_side = chat_id
-            if chat_id != first_side:
+            if first_side != chat_id:
                 second_side = chat_id
                 init = True
 
@@ -85,11 +85,11 @@ def echo_all(updates):
             dest_id = first_side
         
 
-        
 
         if 'text' in update['message']:
             print('text')
             text = update['message']['text']
+            sent = f"{name} :\n {text}"
             send_message(chat_id=dest_id, text=text)
             
 
